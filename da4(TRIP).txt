@@ -1,0 +1,116 @@
+import pandas as pd
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+
+
+
+data=pd.read_csv("201805-capitalbikeshare-tripdata.csv")
+
+
+
+data.head()
+
+
+
+
+data.count()
+
+
+data=data.drop(['Start date','End date','Start station','End station'],axis=1)
+
+
+
+data.head()
+
+
+
+data.isnull().any()
+
+
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+data['Bike number']=le.fit_transform(data['Bike number'])
+
+
+
+data['Member type']=le.fit_transform(data['Member type'])
+
+
+
+data.head()
+
+
+
+data.hist(bins = 50, figsize=(20,15))
+plt.show()
+
+
+columns=list(data.columns)
+col=columns[:4]
+
+
+
+y=data["Member type"]
+
+
+
+
+X=data.drop(["Member type"],axis=1)
+
+
+X.head()
+
+
+#scaler=MinMaxScaler()
+#X[col] = scaler.fit_transform(X)
+from sklearn.preprocessing import StandardScaler
+sc = StandardScaler()
+X = sc.fit_transform(X)
+
+
+
+train_X,test_X,train_y,test_y=train_test_split(X,y,test_size=0.25)
+
+
+from sklearn.neighbors import KNeighborsClassifier
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(train_X,train_y)
+y_pred=model.predict(test_X)
+
+
+
+from sklearn.metrics import confusion_matrix,accuracy_score,precision_score,recall_score,f1_score
+print("confusion matrix {}".format( confusion_matrix(test_y, y_pred)))
+print("Accuracy score {}".format(accuracy_score(test_y,y_pred)))
+print("precision score {}".format(precision_score(test_y,y_pred)))
+print("recall score {}".format(recall_score(test_y,y_pred)))
+print("f1score {}".format(f1_score(test_y,y_pred)))
+
+
+
+from sklearn.naive_bayes import GaussianNB
+gnb = GaussianNB()
+gnb.fit(train_X,train_y)
+y_pred=gnb.predict(test_X)
+
+
+
+from sklearn.metrics import confusion_matrix,accuracy_score,precision_score,recall_score,f1_score
+print("confusion matrix {}".format( confusion_matrix(test_y, y_pred)))
+print("Accuracy score {}".format(accuracy_score(test_y,y_pred)))
+print("precision score {}".format(precision_score(test_y,y_pred)))
+print("recall score {}".format(recall_score(test_y,y_pred)))
+print("f1score {}".format(f1_score(test_y,y_pred)))
+
+
+
+
+
+
+
+
+
+

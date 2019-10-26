@@ -1,0 +1,90 @@
+import pandas as pd
+import numpy as np
+import matplotlib as mp
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix,accuracy_score,precision_score,recall_score,f1_score
+
+
+
+
+
+data=pd.read_csv("./diabetes.csv")
+
+
+data.head()
+
+
+columns=list(data.columns)
+col=columns[:8]
+
+
+
+data["Outcome"].hist()
+
+
+
+
+y=data["Outcome"]
+X=data.drop(["Outcome"],axis=1)
+
+
+
+
+X.head()
+
+
+y.head()
+
+
+
+scaler=MinMaxScaler()
+X[col] = scaler.fit_transform(X)
+
+
+
+
+X.head()
+
+
+train_X,test_X,train_y,test_y=train_test_split(X,y,test_size=0.3)
+
+
+
+train_X.head()
+
+
+
+model=GaussianNB()
+
+
+
+model.fit(train_X,train_y)
+
+
+
+y_pred=model.predict(test_X)
+
+
+
+print("confusion matrix {}".format( confusion_matrix(test_y, y_pred)))
+print("Accuracy score {}".format(accuracy_score(test_y,y_pred)))
+print("precision score {}".format(precision_score(test_y,y_pred)))
+print("recall score {}".format(recall_score(test_y,y_pred)))
+print("f1score {}".format(f1_score(test_y,y_pred)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

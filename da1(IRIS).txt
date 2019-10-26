@@ -1,0 +1,124 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import sys
+
+
+
+data=pd.read_csv("./Iris.csv")
+data.head()
+
+
+
+data.info()
+
+
+
+data[0:15]
+
+
+
+len(data.columns)
+
+
+
+data.shape
+
+
+data.count()
+
+
+
+y=list(data.columns)
+z=y[:4]
+
+
+
+data.dtypes
+
+
+
+
+def maxs(i):
+    max=-1
+    for j in data[i]:
+            if(j>max):
+                max=j
+    return max
+
+
+
+def mins(i):
+    min=2000
+    for j in data[i]:
+            if(j<min):
+                min=j
+    return min
+
+
+def means(i):
+    sm=0
+    #for i in y[:4]:
+    for j in data[i]:
+        sm=sm+j;
+    return sm/(data[i].count())
+
+
+
+def stds(i):
+    sk=0
+    for j in data[i]:
+        sk = sk+(np.square(j-means(i))/data[i].count())
+    return (np.sqrt(sk))
+
+
+for i in y[:4]:
+    print("mean of {}:{}".format(i,means(i)))
+    print("max of {}:{}".format(i,maxs(i)))
+    print("max of {}:{}".format(i,mins(i)))
+    print("std of {}:{}".format(i,stds(i)))
+    print("\n")
+
+
+
+#data.mean()
+for x in y[:4]:
+    print("mean of {}:{}".format(x,data[x].mean()))
+    print("max of {}:{}".format(x,data[x].max()))
+    print("min of {}:{}".format(x,data[x].min()))
+    print("standard deviation  of {}:{}".format(x,data[x].std()))
+    print("variance of {}: {}".format(x,np.square(data[x].std())))
+    print("\n")
+
+
+
+
+for x in y[:4]:   
+    plt.hist(data[x],bins=30)          
+    plt.ylabel('No of times')
+    plt.show()
+
+
+
+
+data.hist()
+
+
+
+
+sns.boxplot(data=data.iloc[:,0:4])
+
+
+
+data.boxplot()
+
+
+
+
+
+
+
+
+
+
